@@ -10,11 +10,13 @@ Cliente para obtenção do token de acesso para API do SUAP em aplicações stan
 - A aplicação recebe o token de acesso para realização de chamadas a API do SUAP em nome do usuário
 
 # Exemplo de Uso
-
+```
 import br.edu.ifrn.suap.SuapClient;
+
 SuapClient client = new SuapClient("XXXXXXX", "XXXXXXX");
 String token = client.authorize();
 System.out.println(token);
+```
 
 # Trabalho Futuro
 
