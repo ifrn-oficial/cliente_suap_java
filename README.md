@@ -15,6 +15,7 @@ import br.edu.ifrn.suap.SuapClient;
 
 SuapClient client = new SuapClient("XXXXXXX", "XXXXXXX");
 String token = client.authorize();
+//o fluxo de execução é interronpido até que o usário realize a autenticação na tela do navegador aberta pela aplicação
 System.out.println(token);
 ```
 
