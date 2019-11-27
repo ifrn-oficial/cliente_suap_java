@@ -19,15 +19,26 @@ public class SuapClient {
 	
 	private String id;
 	private String secret;
+	private ServerSocket server;
+	private String token;
 
 	public SuapClient(String id, String secret){
 		this.id = id;
 		this.secret = secret;
 	}
+	
+	public boolean isAuthorized() {
+		return this.token != null;
+	}	
 
-	public String authorize() throws IOException{
+	public void authorize() throws IOException{
 
-		ServerSocket server = new ServerSocket(8000);
+		if(this.server!=null) {
+			this.server.close();
+			this.server = null;
+		}
+		
+		server = new ServerSocket(8000);
 		String url = AUTHORIZE_URL+"?response_type=code&grant_type=authorization-code=&client_id="+this.id;
 		Runtime.getRuntime().exec("sensible-browser "+url);
 		
@@ -63,19 +74,35 @@ public class SuapClient {
 				socket.getOutputStream().write(httpResponse.getBytes("UTF-8"));
 				socket.getOutputStream().flush();
 				socket.getOutputStream().close();
-				return token;
+				this.token = token;
 			} catch (Exception e) {
 				e.printStackTrace();
 				server.close();
-				return null;
+				this.token = null;
 			}
 		}
 	}
+	
+	public String get(String url, String params) throws IOException {
+		return null;
+	}
+	
+	public String post(String url, String params) throws IOException {
+		return null;
+	}
+	
+	public String put(String url, String params) throws IOException {
+		return null;
+	}
+	
+	public String delete(String url, String params) throws IOException {
+		return null;
+	}
 
 	public static void main(String args[]) throws IOException {
-		SuapClient client = new SuapClient("XXXXXXX", "XXXXXXX");
-		String token = client.authorize();
-		System.out.println(token);
+		SuapClient client = new SuapClient("XXXXX", "XXXXX");
+		if(!client.isAuthorized()) client.authorize();
+		System.out.println(client.get("/me", null));
 	}
 
 }
